@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 public class SLCWithGet<E extends Comparable<? super E>> extends LinkedCollection<E>
         implements CollectionWithGet<E> {
 
@@ -5,11 +7,20 @@ public class SLCWithGet<E extends Comparable<? super E>> extends LinkedCollectio
         super();
     }
 
+    private int size;
+
     @Override
     public boolean add(E element) {
-        if (super.size() > 0) {
+        if (size > 0) {
+            size++;
             Entry previous = head;
             Entry current = head;
+
+            if (element.compareTo(head.element) < 1) {
+                head = new Entry(element, head);
+                return true;
+            }
+            current = current.next;
 
             while (current != null) {
 
@@ -23,13 +34,16 @@ public class SLCWithGet<E extends Comparable<? super E>> extends LinkedCollectio
             }
 
             previous.next = new Entry(element, null);
+            return true;
         }
-        return super.add(element);
+        super.head = new Entry(element, null);
+        size++;
+        return true;
     }
 
     @Override
     public E get(E comparable) {
-        if (comparable == null || head == null) {
+        if (comparable == null) {
             return null;
         }
 
@@ -41,6 +55,7 @@ public class SLCWithGet<E extends Comparable<? super E>> extends LinkedCollectio
             }
             current = current.next;
         }
+        System.out.println("END get while");
         return null;
     }
 }
