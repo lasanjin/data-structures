@@ -8,8 +8,16 @@ public class SLCWithGet<E extends Comparable<? super E>>
         super();
     }
 
+    /**
+     * @param element the object to add into the list
+     * @return true if <E> element is added, otherwise false.
+     */
     @Override
     public boolean add(E element) {
+        if (element == null) {
+            return false;
+        }
+
         //Om listan är tom så lägg till head.
         if (super.isEmpty()) {
             super.head = new Entry(element, null);
@@ -44,6 +52,10 @@ public class SLCWithGet<E extends Comparable<? super E>>
         return true;
     }
 
+    /**
+     * @param comparable <E>element
+     * @return <E> comparable if element is in list, otherwise null;
+     */
     @Override
     public E get(E comparable) {
         if (comparable == null) {
@@ -63,7 +75,11 @@ public class SLCWithGet<E extends Comparable<? super E>>
         return null;
     }
 
-    public int getSize() {
+    /**
+     * @return size of list.
+     */
+    @Override
+    public int size() {
         return size;
     }
 }
