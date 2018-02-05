@@ -1,43 +1,46 @@
-import java.util.Iterator;
-
-public class SLCWithGet<E extends Comparable<? super E>> extends LinkedCollection<E>
+public class SLCWithGet<E extends Comparable<? super E>>
+        extends LinkedCollection<E>
         implements CollectionWithGet<E> {
+
+    private int size;
 
     public SLCWithGet() {
         super();
     }
 
-    private int size;
-
     @Override
     public boolean add(E element) {
-        if (size > 0) {
+        //Om listan är tom så lägg till head.
+        if (super.isEmpty()) {
+            super.head = new Entry(element, null);
             size++;
-            Entry previous = head;
-            Entry current = head;
-
-            if (element.compareTo(head.element) < 1) {
-                head = new Entry(element, head);
-                return true;
-            }
-            current = current.next;
-
-            while (current != null) {
-
-                if (element.compareTo(current.element) < 1) {
-                    Entry newEntry = new Entry(element, current);
-                    previous.next = newEntry;
-                    return true;
-                }
-                previous = current;
-                current = current.next;
-            }
-
-            previous.next = new Entry(element, null);
             return true;
         }
-        super.head = new Entry(element, null);
-        size++;
+
+        Entry current = head;
+        Entry previous;
+
+        //Om element är mindre än head så sätt element som head.
+        if (element.compareTo(current.element) < 1) {
+            head = new Entry(element, current);
+            return true;
+        }
+        current = current.next;
+        previous = head;
+
+        //Om element är större än head så jämför vidare.
+        while (current != null) {
+
+            if (element.compareTo(current.element) < 1) {
+                previous.next = new Entry(element, current);
+                return true;
+            }
+            previous = current;
+            current = current.next;
+        }
+
+        //Om element är "störst" så lägg till element sist.
+        previous.next = new Entry(element, null);
         return true;
     }
 
@@ -50,12 +53,17 @@ public class SLCWithGet<E extends Comparable<? super E>> extends LinkedCollectio
         Entry current = head;
 
         while (current != null) {
+
             if (comparable.compareTo(current.element) == 0) {
                 return current.element;
             }
             current = current.next;
         }
-        System.out.println("END get while");
+
         return null;
+    }
+
+    public int getSize() {
+        return size;
     }
 }
