@@ -1,3 +1,6 @@
+import javax.naming.OperationNotSupportedException;
+import java.util.concurrent.ConcurrentSkipListSet;
+
 public class SLCWithGet<E extends Comparable<? super E>>
         extends LinkedCollection<E>
         implements CollectionWithGet<E> {
@@ -18,42 +21,40 @@ public class SLCWithGet<E extends Comparable<? super E>>
             return false;
         }
 
+        size++; //Vi gör detta 1 gång.
+
         //Om listan är tom så lägg till head.
-        if (super.isEmpty()) {
-            super.head = new Entry(element, null);
-            size++;
+        if (isEmpty()) {
+            head = new Entry(element, null);
             return true;
         }
 
-        Entry current = head;
-        Entry previous;
-
-        //Om element är mindre än head så sätt element som head.
-        if (element.compareTo(current.element) < 1) {
-            head = new Entry(element, current);
+        if (element.compareTo(head.element) < 1) {//Om element < head, så head = element.
+            head = new Entry(element, head);
             return true;
         }
-        current = current.next;
-        previous = head;
 
-        //Om element är större än head så jämför vidare.
+        Entry previous = head;
+        Entry current = head.next;
+
+        //Jämför vidare. Om element < current, så previous = element.
         while (current != null) {
-
             if (element.compareTo(current.element) < 1) {
                 previous.next = new Entry(element, current);
                 return true;
             }
+
             previous = current;
             current = current.next;
         }
 
-        //Om element är "störst" så lägg till element sist.
+        //"Störst" element sist.
         previous.next = new Entry(element, null);
         return true;
     }
 
     /**
-     * @param comparable <E>element
+     * @param comparable <E> element
      * @return <E> comparable if element is in list, otherwise null;
      */
     @Override

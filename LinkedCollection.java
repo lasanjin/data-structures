@@ -32,6 +32,7 @@ public class LinkedCollection<E> extends AbstractCollection<E> {
         public E element;
         public Entry next;
 
+
         public Entry(E element, Entry next) {
             this.element = element;
             this.next = next;
