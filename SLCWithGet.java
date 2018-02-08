@@ -1,3 +1,7 @@
+/**
+ * @authors Joakim & Sanjin
+ * @version 2018.02.06
+ */
 public class SLCWithGet<E extends Comparable<? super E>>
         extends LinkedCollection<E>
         implements CollectionWithGet<E> {

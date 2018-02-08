@@ -1,3 +1,7 @@
+/**
+ * @version 2018.02.08
+ * @authors Joakim & Sanjin
+ */
 public class SplayWithGet<E extends Comparable<? super E>>
         extends BinarySearchTree<E>
         implements CollectionWithGet<E> {
@@ -8,8 +12,10 @@ public class SplayWithGet<E extends Comparable<? super E>>
     }
 
     /**
+     * Splay tree and return element if element is in tree.
+     *
      * @param e The dummy element to compare to.
-     * @return splay tree and return element
+     * @return element if element is in tree, otherwise null
      */
     @Override
     public E get(E e) {
@@ -18,38 +24,30 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
 
         Entry entry = find(e, root);
-
         Entry parent;
         Entry grandParent;
 
+
+        //Splay tills entry = root
         while (!equals(entry, root)) {
 
             parent = entry.parent;
             grandParent = parent.parent;
 
             if (grandParent == null) {
-                if (equals(parent.left, entry)) {
-                    zig(parent);
-                } else {
-                    zag(parent);
-                }
 
-                return e.compareTo(root.element) == 0 ? root.element : null;
+                belowRoot(parent, entry);
+                break;
             }
 
-            //grandParent != null
             if (equals(grandParent.left, parent)) {
-                if (equals(parent.left, entry)) {
-                    zagZag(grandParent);
-                } else {
-                    zagZig(grandParent);
-                }
+
+                leftOfGrandParent(parent, grandParent, entry);
+
             } else {
-                if (equals(parent.right, entry)) {
-                    zigZig(grandParent);
-                } else {
-                    zigZag(grandParent);
-                }
+
+                rightOfGrandParent(parent, grandParent, entry);
+
             }
 
             entry = grandParent;
@@ -58,15 +56,41 @@ public class SplayWithGet<E extends Comparable<? super E>>
         return e.compareTo(root.element) == 0 ? root.element : null;
     }
 
+    // Entry hänger på root
+    private void belowRoot(Entry parent, Entry entry) {
+        if (equals(parent.left, entry)) {
+            zig(parent);
+        } else {
+            zag(parent);
+        }
+    }
+
+    // Entry hänger vänster om grandparent
+    private void leftOfGrandParent(Entry parent, Entry grandParent, Entry entry) {
+        if (equals(parent.left, entry)) {
+            zagZag(grandParent);
+        } else {
+            zagZig(grandParent);
+        }
+    }
+
+    // Entry hänger höger om grandparent
+    private void rightOfGrandParent(Entry parent, Entry grandParent, Entry entry) {
+        if (equals(parent.right, entry)) {
+            zigZig(grandParent);
+        } else {
+            zigZag(grandParent);
+        }
+    }
+
     private boolean equals(Entry e1, Entry e2) {
         return e1 != null && e1 == e2;
     }
 
     /**
-     *
      * @param e     element to find
      * @param entry root
-     * @return entry of element
+     * @return element's entry if element exists, otherwise element's parent
      */
     @Override
     protected Entry find(E e, Entry entry) {
@@ -86,7 +110,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         return entry;
     }
 
-    /* Rotera 1 steg i hogervarv:
+    /* Rotera 1 steg i högervarv:
             x'                 y'
            / \                / \
           y'  C     -->      A   x'
@@ -98,24 +122,26 @@ public class SplayWithGet<E extends Comparable<? super E>>
         E temp = x.element;
         x.element = y.element;
         y.element = temp;
-        x.left = y.left;
 
+        x.left = y.left;
         if (x.left != null) {
             x.left.parent = x;
         }
-        y.left = y.right;
-        y.right = x.right;
 
+        y.left = y.right;
+
+        y.right = x.right;
         if (y.right != null) {
             y.right.parent = y;
         }
+
         x.right = y;
     }
 
-    /* Rotera 1 steg i vanstervarv:
+    /* Rotera 1 steg i vänstervarv:
             x'                 y'
            / \                / \
-          A   y'  -->        x'  C
+          A   y'     -->     x'  C
              / \            / \
             B   C          A   B
     */
@@ -124,21 +150,23 @@ public class SplayWithGet<E extends Comparable<? super E>>
         E temp = x.element;
         x.element = y.element;
         y.element = temp;
-        x.right = y.right;
 
+        x.right = y.right;
         if (x.right != null) {
             x.right.parent = x;
         }
-        y.right = y.left;
-        y.left = x.left;
 
+        y.right = y.left;
+
+        y.left = x.left;
         if (y.left != null) {
             y.left.parent = y;
         }
+
         x.left = y;
     }
 
-    /* Rotera vanster sedan hoger:
+    /* Rotera vänster sedan höger:
             x'                  z'
            / \                /   \
           y'  D     -->      y'    x'
@@ -153,20 +181,24 @@ public class SplayWithGet<E extends Comparable<? super E>>
         E temp = x.element;
         x.element = z.element;
         z.element = temp;
+
         y.right = z.left;
         if (y.right != null) {
             y.right.parent = y;
         }
+
         z.left = z.right;
+
         z.right = x.right;
         if (z.right != null) {
             z.right.parent = z;
         }
+
         x.right = z;
         z.parent = x;
     }
 
-    /* Rotera höger sedan vanster:
+    /* Rotera höger sedan vänster:
             x'                  z'
            / \                /   \
           A   y'     -->     x'    y'
@@ -181,52 +213,54 @@ public class SplayWithGet<E extends Comparable<? super E>>
         E temp = x.element;
         x.element = z.element;
         z.element = temp;
-        y.left = z.right;
 
+        y.left = z.right;
         if (y.left != null) {
             y.left.parent = y;
         }
-        z.right = z.left;
-        z.left = x.left;
 
+        z.right = z.left;
+
+        z.left = x.left;
         if (z.left != null) {
             z.left.parent = z;
         }
+
         x.left = z;
         z.parent = x;
     }
 
-    /* Rotera 2 steg i vanstervarv:
-           x'                  z
-          / \                 / \
-         G   y'     -->      y'  C
-            / \             / \
-           A   z           x'  B
-              / \         / \
-             B   C       G   A
+    /* Rotera 2 steg i vänstervarv:
+            x'                  z
+           / \                 / \
+          G   y'     -->      y'  C
+             / \             / \
+            A   z           x'  B
+               / \         / \
+              B   C       G   A
     */
     private void zigZig(Entry x) {
         Entry y = x.right;
         Entry z = x.right.right;
         E temp = x.element;
 
-        //Byt plats på x och z element
+        // Byt plats på x och z's element
         x.element = z.element;
         z.element = temp;
 
-        x.right = z.right;//z.right = C
+        x.right = z.right;// z.right = C
         if (x.right != null) {
-            x.right.parent = x;//C.parent = z
+            x.right.parent = x;// C.parent = z
         }
 
-        y.right = z.left;//y.right = B
+        y.right = z.left;// y.right = B
         if (y.right != null) {
-            y.right.parent = y;//B.parent = y
+            y.right.parent = y;// B.parent = y
         }
 
-        z.right = y.left;//x.right = A
+        z.right = y.left;// x.right = A
         if (y.left != null) {
-            y.left.parent = z;//A.parent = x
+            y.left.parent = z;// A.parent = x
         }
 
         z.left = x.left;//x.left = G
@@ -238,12 +272,12 @@ public class SplayWithGet<E extends Comparable<? super E>>
         y.left = z;
     }
 
-    /* Rotera 2 steg i hogervarv:
-            x'                  z'
+    /* Rotera 2 steg i högervarv:
+            x'                  z
            / \                 / \
           y'  D      -->      A   y'
          / \                     / \
-        z'  C                   B   x'
+        z   C                   B   x'
        / \                         / \
       A   B                       C   D
     */
@@ -251,27 +285,28 @@ public class SplayWithGet<E extends Comparable<? super E>>
         Entry y, z;
         y = x.left;
         z = x.left.left;
-
         E e = x.element;
-        x.element = z.element;
-        z.element = e; // byter plats på x och y's element
 
-        x.left = z.left; // hänger på A på toppen
+        //Byt plats på x och y's element
+        x.element = z.element;
+        z.element = e;
+
+        x.left = z.left; // hänger A på toppen
         if (x.left != null) {
             x.left.parent = x;
         }
 
-        y.left = z.right; // hänger på B på y'
+        y.left = z.right; // hänger B på y'
         if (y.left != null) {
             y.left.parent = y;
         }
 
-        z.left = y.right; // hänger på C på x'
+        z.left = y.right; // hänger C på x'
         if (z.left != null) {
             z.left.parent = z;
         }
 
-        z.right = x.right; // hänger på D på x'
+        z.right = x.right; // hänger D på x'
         if (z.right != null) {
             z.right.parent = z;
         }
