@@ -2,14 +2,98 @@ public class SplayWithGet<E extends Comparable<? super E>>
         extends BinarySearchTree<E>
         implements CollectionWithGet<E> {
 
-    public SplayWithGet() {
+    private Entry previous;
 
+    public SplayWithGet() {
+        super();
+    }
+
+    /**
+     * @param e The dummy element to compare to.
+     * @return splay tree and return element
+     */
+    @Override
+    public E get(E e) {
+        if (e == null || root == null) {
+            return null;
+        }
+
+        Entry entry = find(e, root);
+
+        Entry parent;
+        Entry grandParent;
+
+        while (!equals(entry, root)) {
+
+            parent = entry.parent;
+            grandParent = parent.parent;
+
+            if (grandParent == null) {
+                if (equals(parent.left, entry)) {
+                    zig(parent);
+                } else {
+                    zag(parent);
+                }
+
+                return root.element;
+            }
+
+            //grandParent != null
+            if (equals(grandParent.left, parent)) {
+                if (equals(parent.left, entry)) {
+                    zagZag(grandParent);
+                } else {
+                    zagZig(grandParent);
+                }
+            } else {
+                if (equals(parent.right, entry)) {
+                    zigZig(grandParent);
+                } else {
+                    zigZag(grandParent);
+                }
+            }
+
+            entry = grandParent;
+        }
+
+        return root.element;
+    }
+
+    private boolean equals(Entry e1, Entry e2) {
+        return e1 != null && e1 == e2;
+    }
+
+    /**
+     * Saves previous which is element's parent.
+     *
+     * @param e     element to find
+     * @param entry root
+     * @return entry of element
+     */
+    @Override
+    protected Entry find(E e, Entry entry) {
+        if (entry == null) {
+            return previous;
+        } else {
+
+            previous = entry;
+            int result = e.compareTo(entry.element);
+
+            if (result < 0) {
+                return find(e, entry.left);
+            }
+            if (result > 0) {
+                return find(e, entry.right);
+            }
+
+            return entry;
+        }
     }
 
     /* Rotera 1 steg i hogervarv:
             x'                 y'
            / \                / \
-          y'  C   -->        A   x'
+          y'  C     -->      A   x'
          / \                    / \
         A   B                  B   C
     */
@@ -61,7 +145,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
     /* Rotera vanster sedan hoger:
             x'                  z'
            / \                /   \
-          y'  D   -->        y'    x'
+          y'  D     -->      y'    x'
          / \                / \   / \
         A   z'             A   B C   D
            / \
@@ -89,7 +173,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
     /* Rotera höger sedan vanster:
             x'                  z'
            / \                /   \
-          A   y'   -->       x'    y'
+          A   y'     -->     x'    y'
              / \            / \   / \
             z   D          A   B C   D
            / \
@@ -119,7 +203,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
     /* Rotera 2 steg i vanstervarv:
            x'                  z
           / \                 / \
-         G   y'   -->        y'  C
+         G   y'     -->      y'  C
             / \             / \
            A   z           x'  B
               / \         / \
@@ -198,65 +282,5 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
         x.right = y;
         y.right = z;
-    }
-
-    @Override
-    public E get(E e) {
-        if (e == null) {
-            throw new NullPointerException();
-        }
-        if (e.compareTo(root.element) == 0) {
-            return root.element;
-        }
-
-        Entry entry = find(e, root);
-
-        if (entry == null) {
-            return null;
-        }
-
-        Entry parent;
-        Entry grandParent;
-
-        while (entry.element.compareTo(root.element) != 0) {
-            parent = entry.parent;
-            grandParent = parent.parent;
-
-            if (grandParent == null) {
-                if (equals(parent.left, entry)) {
-                    zig(parent);
-                } else {
-                    zag(parent);
-                }
-                return root.element;
-            }
-
-            //grandParent != null
-            if (equals(grandParent.left, parent)) {
-                if (equals(parent.left, entry)) {
-                    zagZag(grandParent);
-                } else {
-                    zagZig(grandParent);
-                }
-            } else {
-                if (equals(parent.right, entry)) {
-                    zigZig(grandParent);
-                } else {
-                    zigZag(grandParent);
-                }
-            }
-
-
-            entry = grandParent;
-        }
-
-        return root.element;
-    }
-
-    private boolean equals(Entry e1, Entry e2) {
-        if (e1 == null || e2 == null) {
-            return false;
-        }
-        return e1.element.compareTo(e2.element) == 0;
     }
 }
