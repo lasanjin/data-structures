@@ -1,5 +1,3 @@
-import java.util.NoSuchElementException;
-
 public class SplayWithGet<E extends Comparable<? super E>>
         extends BinarySearchTree<E>
         implements CollectionWithGet<E> {
@@ -88,7 +86,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         z.parent = x;
     }
 
-    /* Rotera hoger sedan vanster:
+    /* Rotera höger sedan vanster:
             x'                  z'
            / \                /   \
           A   y'   -->       x'    y'
@@ -199,7 +197,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
 
         x.right = y;
-        y.right = x;
+        y.right = z;
     }
 
     @Override
@@ -247,12 +245,18 @@ public class SplayWithGet<E extends Comparable<? super E>>
                     zigZag(grandParent);
                 }
             }
+
+
+            entry = grandParent;
         }
 
         return root.element;
     }
 
     private boolean equals(Entry e1, Entry e2) {
+        if (e1 == null || e2 == null) {
+            return false;
+        }
         return e1.element.compareTo(e2.element) == 0;
     }
 }
