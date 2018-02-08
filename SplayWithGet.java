@@ -2,6 +2,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         extends BinarySearchTree<E>
         implements CollectionWithGet<E> {
 
+
     public SplayWithGet() {
         super();
     }
@@ -33,7 +34,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
                     zag(parent);
                 }
 
-                return root.element == e ? root.element :  null;
+                return e.compareTo(root.element) == 0 ? root.element : null;
             }
 
             //grandParent != null
@@ -54,7 +55,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
             entry = grandParent;
         }
 
-        return root.element == e ? root.element :  null;
+        return e.compareTo(root.element) == 0 ? root.element : null;
     }
 
     private boolean equals(Entry e1, Entry e2) {
@@ -62,7 +63,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
     }
 
     /**
-     * Saves previous which is element's parent.
      *
      * @param e     element to find
      * @param entry root
@@ -70,25 +70,20 @@ public class SplayWithGet<E extends Comparable<? super E>>
      */
     @Override
     protected Entry find(E e, Entry entry) {
-        if (entry == null) {
-            return null;
-        } else {
+        int result = e.compareTo(entry.element);
 
-            int result = e.compareTo(entry.element);
-
-            if (result < 0) {
-                if (entry.left != null) {
-                    return find(e, entry.left);
-                }
+        if (result < 0) {
+            if (entry.left != null) {
+                return find(e, entry.left);
             }
-            if (result > 0) {
-                if (entry.right != null) {
-                    return find(e, entry.right);
-                }
-            }
-
-            return entry;
         }
+        if (result > 0) {
+            if (entry.right != null) {
+                return find(e, entry.right);
+            }
+        }
+
+        return entry;
     }
 
     /* Rotera 1 steg i hogervarv:

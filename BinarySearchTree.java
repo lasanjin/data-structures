@@ -191,10 +191,8 @@ public class BinarySearchTree<E extends Comparable<? super E>>
     } // add
 
     // ========== ========== ========== ==========
-    protected int count = 0;
 
     protected Entry find(E elem, Entry t) {
-        count++;
         if (t == null)
             return null;
         else {
