@@ -41,13 +41,12 @@ public class SplayWithGet<E extends Comparable<? super E>>
             }
 
             if (equals(grandParent.left, parent)) {
-
+                
                 leftOfGrandParent(parent, grandParent, entry);
 
             } else {
 
                 rightOfGrandParent(parent, grandParent, entry);
-
             }
 
             entry = grandParent;
