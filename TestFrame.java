@@ -36,8 +36,8 @@ public class TestFrame extends JFrame implements ActionListener {
     CollectionWithGet<TestMapWithCounter.TestMapEntry<String, List<Integer>>>
             /* ########## ########## ########## ########## ##########  */
             /* ## TAG BORT kommentarna på de 2 följande raderna när ni skrivit era samlingar */
-            containerSLC   = new SLCWithGet<TestMapWithCounter.TestMapEntry<String, List<Integer>>>(),
-            //containerSplay = new SplayWithGet<TestMapWithCounter.TestMapEntry<String, List<Integer>>>(),
+            containerSLC = new SLCWithGet<TestMapWithCounter.TestMapEntry<String, List<Integer>>>(),
+            containerSplay = new SplayWithGet<TestMapWithCounter.TestMapEntry<String, List<Integer>>>(),
             containerBST = new BSTwithGet<TestMapWithCounter.TestMapEntry<String, List<Integer>>>(),
             containerAVL = new AVLwithGet<TestMapWithCounter.TestMapEntry<String, List<Integer>>>();
 
@@ -45,15 +45,15 @@ public class TestFrame extends JFrame implements ActionListener {
     /*  ########## ########## ########## ########## ##########  */
     /* ###### LÄGG TILL kommentarer på de 2 följande raderna när ni skrivit era samlingar */
     //TestMapWithCounter<String,List<Integer>> slcMap = null;
-    TestMapWithCounter<String,List<Integer>> splayMap = null;
+    //TestMapWithCounter<String,List<Integer>> splayMap = null;
 
     TestMapWithCounter<String, List<Integer>>
             /*  ########## ########## ########## ########## ##########  */
             /* ###### TAG BORT kommentarna på de 2 följande raderna när ni skrivit era samlingar */
-            slcMap = new TestMapWithCounter<String,List<Integer>>(containerSLC),
-            //splayMap = new TestMapWithCounter<String,List<Integer>>(containerSplay),
+            slcMap = new TestMapWithCounter<String, List<Integer>>(containerSLC),
+            splayMap = new TestMapWithCounter<String, List<Integer>>(containerSplay),
 
-            bstMap = new TestMapWithCounter<String, List<Integer>>(containerBST),
+    bstMap = new TestMapWithCounter<String, List<Integer>>(containerBST),
             avlMap = new TestMapWithCounter<String, List<Integer>>(containerAVL);
 
     TestMapWithCounter<String, List<Integer>> map = bstMap;
@@ -76,18 +76,18 @@ public class TestFrame extends JFrame implements ActionListener {
     NumberFormat nf = NumberFormat.getInstance(Locale.UK);
 
 
-        class RadioLyssnare implements ActionListener {
-            public void actionPerformed(ActionEvent e) {
-                if ( e.getSource() == list )
-                    map = slcMap;
-                else if ( e.getSource() == bst)
-                    map = bstMap;
-                else if ( e.getSource() == avl )
-                    map = avlMap;
-                else
-                    System.out.println("HEJSAN");//map = splayMap;
-            }
+    class RadioLyssnare implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == list)
+                map = slcMap;
+            else if (e.getSource() == bst)
+                map = bstMap;
+            else if (e.getSource() == avl)
+                map = avlMap;
+            else
+                map = splayMap;
         }
+    }
 
     // The only Constructor
     public TestFrame() {
@@ -103,11 +103,11 @@ public class TestFrame extends JFrame implements ActionListener {
         radiogrupp.add(avl);
         radiogrupp.add(list);
         radiogrupp.add(splay);
-		RadioLyssnare rl = new RadioLyssnare();
-		list.addActionListener(rl);
-		bst.addActionListener(rl);
-		avl.addActionListener(rl);
-		splay.addActionListener(rl);
+        RadioLyssnare rl = new RadioLyssnare();
+        list.addActionListener(rl);
+        bst.addActionListener(rl);
+        avl.addActionListener(rl);
+        splay.addActionListener(rl);
         JPanel radioknapparna = new JPanel(new GridLayout(1, 4));
         radioknapparna.setPreferredSize(new Dimension(450, 50)); // min size on height
         radioknapparna.add(bst);

@@ -1,6 +1,3 @@
-import javax.naming.OperationNotSupportedException;
-import java.util.concurrent.ConcurrentSkipListSet;
-
 public class SLCWithGet<E extends Comparable<? super E>>
         extends LinkedCollection<E>
         implements CollectionWithGet<E> {
@@ -29,7 +26,8 @@ public class SLCWithGet<E extends Comparable<? super E>>
             return true;
         }
 
-        if (element.compareTo(head.element) < 1) {//Om element < head, så head = element.
+        //Om element < head, så head = element.
+        if (element.compareTo(head.element) < 1) {
             head = new Entry(element, head);
             return true;
         }
