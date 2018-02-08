@@ -2,8 +2,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
         extends BinarySearchTree<E>
         implements CollectionWithGet<E> {
 
-    private Entry previous;
-
     public SplayWithGet() {
         super();
     }
@@ -35,7 +33,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
                     zag(parent);
                 }
 
-                return root.element;
+                return root.element == e ? root.element :  null;
             }
 
             //grandParent != null
@@ -56,7 +54,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
             entry = grandParent;
         }
 
-        return root.element;
+        return root.element == e ? root.element :  null;
     }
 
     private boolean equals(Entry e1, Entry e2) {
@@ -73,17 +71,20 @@ public class SplayWithGet<E extends Comparable<? super E>>
     @Override
     protected Entry find(E e, Entry entry) {
         if (entry == null) {
-            return previous;
+            return null;
         } else {
 
-            previous = entry;
             int result = e.compareTo(entry.element);
 
             if (result < 0) {
-                return find(e, entry.left);
+                if (entry.left != null) {
+                    return find(e, entry.left);
+                }
             }
             if (result > 0) {
-                return find(e, entry.right);
+                if (entry.right != null) {
+                    return find(e, entry.right);
+                }
             }
 
             return entry;

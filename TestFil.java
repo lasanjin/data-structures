@@ -40,8 +40,8 @@ public class TestFil {
     private void testSplay() {
         splay = new SplayWithGet<>();
 
-        fillWithData(splay);
-        /*splay.add(86);
+//        fillWithData(splay);
+        splay.add(86);
         splay.add(69);
         splay.add(13);
         splay.add(12);
@@ -52,7 +52,7 @@ public class TestFil {
         splay.add(18);
         splay.add(49);
 
-        lastAdded = 49; */
+        lastAdded = 64;
 
         System.out.println(splay.toString());
 
