@@ -1,6 +1,6 @@
 /**
- * @authors Joakim & Sanjin
  * @version 2018.02.06
+ * @authors Joakim & Sanjin
  */
 public class SLCWithGet<E extends Comparable<? super E>>
         extends LinkedCollection<E>
@@ -72,6 +72,7 @@ public class SLCWithGet<E extends Comparable<? super E>>
             if (comparable.compareTo(current.element) == 0) {
                 return current.element;
             }
+
             current = current.next;
         }
 
