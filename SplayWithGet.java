@@ -27,7 +27,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
         Entry parent;
         Entry grandParent;
 
-
         //Splay tills entry = root
         while (!equals(entry, root)) {
 
@@ -35,17 +34,12 @@ public class SplayWithGet<E extends Comparable<? super E>>
             grandParent = parent.parent;
 
             if (grandParent == null) {
-
                 belowRoot(parent, entry);
                 break;
             }
-
             if (equals(grandParent.left, parent)) {
-                
                 leftOfGrandParent(parent, grandParent, entry);
-
             } else {
-
                 rightOfGrandParent(parent, grandParent, entry);
             }
 
