@@ -1,11 +1,16 @@
 /**
  * @version 2018.02.06
- * @authors Joakim & Sanjin
+ * @authors Joakim and Sanjin
  */
 public class SLCWithGet<E extends Comparable<? super E>>
         extends LinkedCollection<E>
         implements CollectionWithGet<E> {
 
+    /**
+     * Avmarkera kod på rad 13, 72-76 och 84 om du vill köra
+     * en delvis förbättras version av SLC.
+     */
+    //private E previous;
     private int size;
 
     public SLCWithGet() {
@@ -56,20 +61,27 @@ public class SLCWithGet<E extends Comparable<? super E>>
     }
 
     /**
-     * @param comparable <E> element
-     * @return <E> comparable if element is in list, otherwise null;
+     * @param e dummy element to compare to.
+     * @return element if element is in list, otherwise null;
      */
     @Override
-    public E get(E comparable) {
-        if (comparable == null) {
+    public E get(E e) {
+        if (e == null) {
             return null;
         }
+        /*
+        if (previous != null && e.compareTo(previous) == 0) {
+            return previous;
+        }
+        */
 
         Entry current = head;
 
         while (current != null) {
 
-            if (comparable.compareTo(current.element) == 0) {
+            if (e.compareTo(current.element) == 0) {
+
+                //previous = current.element;
                 return current.element;
             }
 
