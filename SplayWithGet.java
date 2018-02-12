@@ -1,6 +1,6 @@
 /**
- * @version 2018.02.08
- * @authors Joakim & Sanjin
+ * @version 2018.02.09
+ * @authors Joakim and Sanjin
  */
 public class SplayWithGet<E extends Comparable<? super E>>
         extends BinarySearchTree<E>
@@ -12,9 +12,11 @@ public class SplayWithGet<E extends Comparable<? super E>>
     }
 
     /**
-     * Splay tree and return element if element is in tree.
+     * If e is found at node x, we splay x and return the element,
+     * else we splay the parent of the external node at which
+     * the search terminates unsuccessfully and return null.
      *
-     * @param e The dummy element to compare to.
+     * @param e dummy element to compare to.
      * @return element if element is in tree, otherwise null
      */
     @Override
@@ -29,7 +31,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
         //Splay tills entry = root
         while (!equals(entry, root)) {
-
             parent = entry.parent;
             grandParent = parent.parent;
 
@@ -42,7 +43,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
             } else {
                 rightOfGrandParent(parent, grandParent, entry);
             }
-
             entry = grandParent;
         }
 
@@ -81,7 +81,10 @@ public class SplayWithGet<E extends Comparable<? super E>>
     }
 
     /**
-     * @param e     element to find
+     * Modified in order to splay the parent of the external node if
+     * the search terminates unsuccessfully in the get method.
+     *
+     * @param e     element
      * @param entry root
      * @return element's entry if element exists, otherwise element's parent
      */
