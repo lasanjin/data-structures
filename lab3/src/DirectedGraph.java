@@ -61,10 +61,9 @@ public class DirectedGraph<E extends Edge> {
         return daList.iterator();
     }
 
-    public List<E>[] getDaList() {
-        return null;//CompKruskalEdge.getKruskalGraph(numV, new CompareEdge(), edges);
+    public List<E> getTestList() {
+        return CompKruskalEdge.getKruskalGraph(numV, new CompareEdge(), edges);
     }
-
 
     //TODO Fråga hur noga vi ska vara med chipsen.
     private static class CompareEdge implements Comparator {
