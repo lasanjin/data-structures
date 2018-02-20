@@ -34,7 +34,11 @@ public class DirectedGraph<E extends Edge> {
     }
 
     public Iterator<E> shortestPath(int from, int to) {
-        return null;
+
+        CompDijkstraPath path = new CompDijkstraPath(edges, to, from);
+
+        return path.getPath().iterator();
+
     }
 
     public Iterator<E> minimumSpanningTree() {
@@ -77,8 +81,5 @@ public class DirectedGraph<E extends Edge> {
         }
     }
 
-    public List<E>[] getEdges() {
-        return edges;
-    }
 }
   
