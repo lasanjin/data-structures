@@ -7,18 +7,10 @@ public class CompKruskalEdge {
     }
 
     public static <E extends Edge> List<E> getKruskalGraph(int nEdge, Comparator comparator, List<E>[] graph) {
-        PriorityQueue pq = new PriorityQueue(nEdge, comparator);
-        List<E>[] mst = new List[nEdge];
-
-        for (int i = 0; i < mst.length; i++) {
-            mst[i] = new ArrayList<>();
-        }
+        PriorityQueue pq = fillPriorityQueue(new PriorityQueue(nEdge, comparator), graph);
+        List<E>[] mst = fillList(new List[nEdge]);
 
         int cc = nEdge;
-
-        for (List l : graph) {
-            pq.addAll(l);
-        }
 
         while (!pq.isEmpty() && cc > 1) {
             E edge = (E) pq.poll();
@@ -52,12 +44,25 @@ public class CompKruskalEdge {
         }
 
         for (int i = 0; i < mst.length; i++) {
-
             if (mst[i] == temp) {
-
                 mst[i] = mst[large];
             }
         }
+
         mst[large].addAll(temp);
+    }
+
+    private static <E extends Edge> List<E>[] fillList(List<E>[] mst) {
+        for (int i = 0; i < mst.length; i++) {
+            mst[i] = new ArrayList<>();
+        }
+        return mst;
+    }
+
+    private static <E extends Edge> PriorityQueue fillPriorityQueue(PriorityQueue pq, List<E>[] graph) {
+        for (List l : graph) {
+            pq.addAll(l);
+        }
+        return pq;
     }
 }
