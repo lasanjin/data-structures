@@ -8,14 +8,7 @@ public class Test {
     }
 
     public Test() {
-
-        DirectedGraph dg = fillDirectedGraph(new DirectedGraph(6));
-
-        List list = dg.getTestList();
-
-        for (Object o : list) {
-            System.out.println(o);
-        }
+        
     }
 
     private DirectedGraph fillDirectedGraph(DirectedGraph dg) {
