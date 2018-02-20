@@ -17,31 +17,31 @@ public class CompDijkstraPath<E extends Edge> {
     }
 
     public ArrayList<E> getPath() {
+        List<E> currentNodeEdges; // lista som innehåller current Nodes edges
 
+        // Lägger till första Path i PQ
         pq.add(new DijkstraPath(from, 0, new ArrayList<>()));
 
-        List<E> currentNodeEdges;
 
         while (!pq.isEmpty()) {
 
             DijkstraPath current = pq.poll();
 
-            if (current.to == to) {
+            if (current.to == to) { // färdiga
                 return current.path;
             }
 
-            if (visited[current.to]) {
+            if (visited[current.to]) { // är den besökt? ja, polla ny och börja om.
                 continue;
             }
 
             // nod är nu besökt
             visited[current.to] = true;
 
-            // List of edges from current node
             currentNodeEdges = edges[current.to];
 
             for (E edge : currentNodeEdges) {
-                if (!visited[edge.to]) {
+                if (!visited[edge.to]) { // om nod besökt behöver inget göras
 
                     ArrayList<E> newPath = new ArrayList<>(current.path);
                     newPath.add(edge);
@@ -52,6 +52,8 @@ public class CompDijkstraPath<E extends Edge> {
             }
         }
 
+        // detta borde aldrig kunna ske.
+        // todo kanske göra något annat om vi hamnar här? fråga på labtillfälle
         return null;
 
     }
@@ -68,13 +70,6 @@ public class CompDijkstraPath<E extends Edge> {
             this.path = path;
         }
 
-        public ArrayList<E> getPath() {
-
-
-            // TODO returnera ny path?
-            return null;
-        }
-
         @Override
         public int compareTo(Object o) {
             return Double.compare(cost, ((DijkstraPath) o).cost);
@@ -82,5 +77,3 @@ public class CompDijkstraPath<E extends Edge> {
     }
 
 }
-
-
