@@ -8,7 +8,7 @@ public class Test {
     }
 
     public Test() {
-        
+
     }
 
     private DirectedGraph fillDirectedGraph(DirectedGraph dg) {
