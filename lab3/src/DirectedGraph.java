@@ -8,16 +8,19 @@ public class DirectedGraph<E extends Edge> {
 
 
     public DirectedGraph(int nNode) {
-        edges = new List[nNode];
-        numV = nNode;
+        numV = nNode + 1;
+        edges = new List[numV];
 
+        for (int i = 0; i < numV; i++) {
+            edges[i] = new ArrayList<>();
+        }
     }
 
     public void addEdge(E e) {
         if (e == null) {
             throw new NullPointerException();
         }
-        if (e.from < 0 || e.from <= numV) {
+        if (e.from < 0 && e.from <= numV) {
             throw new IndexOutOfBoundsException();
         }
         if (edges[e.from].contains(e)) {
@@ -28,20 +31,22 @@ public class DirectedGraph<E extends Edge> {
 
     }
 
-
     public Iterator<E> shortestPath(int from, int to) {
         return null;
     }
 
     public Iterator<E> minimumSpanningTree() {
 
-        return null;
+        return CompKruskalEdge.getKruskalGraph(numV, new CompareEdge(), edges).iterator();
+    }
+
+    public List<E>[] getDaList() {
+        return null;//CompKruskalEdge.getKruskalGraph(numV, new CompareEdge(), edges);
     }
 
 
-
     //TODO Fråga hur noga vi ska vara med chipsen.
-    private static class compareEdge implements Comparator {
+    private static class CompareEdge implements Comparator {
 
         @Override
         public int compare(Object o1, Object o2) {
@@ -52,5 +57,8 @@ public class DirectedGraph<E extends Edge> {
         }
     }
 
+    public List<E>[] getEdges() {
+        return edges;
+    }
 }
   
