@@ -17,6 +17,10 @@ public class DirectedGraph<E extends Edge> {
     }
 
     public void addEdge(E e) {
+
+		System.out.println("Adding new Edge         ->      " + e);
+
+
         if (e == null) {
             throw new NullPointerException();
         }
@@ -37,7 +41,26 @@ public class DirectedGraph<E extends Edge> {
 
     public Iterator<E> minimumSpanningTree() {
 
-        return CompKruskalEdge.getKruskalGraph(numV, new CompareEdge(), edges).iterator();
+
+		System.out.println("	___---	 Building MST	 ---___");
+
+		int count = 0;
+		double totalW = 0;
+
+		List<E> daList = CompKruskalEdge.getKruskalGraph(numV, new CompareEdge(), edges);
+		Iterator<E> iterator = daList.iterator();
+
+		while (iterator.hasNext()) {
+			E current = iterator.next();
+			//System.out.println(current);
+			count++;
+			totalW += current.getWeight();
+		}
+
+		System.out.println("Antal:" + count);
+		System.out.println("Total vikt:" + totalW);
+
+        return daList.iterator();
     }
 
     public List<E>[] getDaList() {

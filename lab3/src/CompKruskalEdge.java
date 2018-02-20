@@ -35,9 +35,9 @@ public class CompKruskalEdge {
                     mergeLists(mst, edge.from, edge.to);
                     mst[edge.to].add(edge);
                 }
+                cc--;
             }
 
-            cc--;
         }
 
         return mst[1];
