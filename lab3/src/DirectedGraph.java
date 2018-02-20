@@ -38,19 +38,6 @@ public class DirectedGraph<E extends Edge> {
     }
 
     public Iterator<E> minimumSpanningTree() {
-        return CompKruskalEdge.getKruskalGraph(numV, new CompareEdge(), edges).iterator();
-    }
-
-    private static class CompareEdge implements Comparator {
-
-        //TODO Fråga hur noga vi ska vara med chipsen.
-
-        @Override
-        public int compare(Object o1, Object o2) {
-            double w1 = ((Edge) o1).getWeight();
-            double w2 = ((Edge) o2).getWeight();
-
-            return Double.compare(w1, w2);
-        }
+        return CompKruskalEdge.getKruskalGraph(numV, edges).iterator();
     }
 }

@@ -6,8 +6,8 @@ public class CompKruskalEdge {
 
     }
 
-    public static <E extends Edge> List<E> getKruskalGraph(int nEdge, Comparator comparator, List<E>[] graph) {
-        PriorityQueue pq = fillPriorityQueue(new PriorityQueue(nEdge, comparator), graph);
+    public static <E extends Edge> List<E> getKruskalGraph(int nEdge, List<E>[] graph) {
+        PriorityQueue pq = fillPriorityQueue(new PriorityQueue(nEdge, new CompareEdge()), graph);
         List<E>[] mst = fillList(new List[nEdge]);
 
         int cc = nEdge;
@@ -19,19 +19,16 @@ public class CompKruskalEdge {
 
                 int sizeTo = mst[edge.to].size();
                 int sizeFrom = mst[edge.from].size();
+                mst[edge.from].add(edge); // lägger till ny edge i någon av listorna, spelar ingen roll vilken
 
                 if (sizeTo < sizeFrom) {
                     mergeLists(mst, edge.to, edge.from);
-                    mst[edge.from].add(edge);
                 } else {
                     mergeLists(mst, edge.from, edge.to);
-                    mst[edge.to].add(edge);
                 }
                 cc--;
             }
-
         }
-
         return mst[1];
     }
 
@@ -64,5 +61,18 @@ public class CompKruskalEdge {
             pq.addAll(l);
         }
         return pq;
+    }
+
+    private static class CompareEdge implements Comparator {
+
+        //TODO Fråga hur noga vi ska vara med chipsen.
+
+        @Override
+        public int compare(Object o1, Object o2) {
+            double w1 = ((Edge) o1).getWeight();
+            double w2 = ((Edge) o2).getWeight();
+
+            return Double.compare(w1, w2);
+        }
     }
 }
