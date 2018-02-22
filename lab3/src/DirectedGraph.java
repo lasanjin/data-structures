@@ -24,9 +24,6 @@ public class DirectedGraph<E extends Edge> {
         if (e.from < 0 && e.from <= nEdge) {
             throw new IndexOutOfBoundsException();
         }
-
-        // TODO Ska göra en koll till?
-
         edges[e.from].add(e);
     }
 
