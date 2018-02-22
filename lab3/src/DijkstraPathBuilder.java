@@ -1,12 +1,12 @@
 import java.util.*;
 
-public class BuildDijkstraPath<E extends Edge> {
+public class DijkstraPathBuilder<E extends Edge> {
     private PriorityQueue<DijkstraPath> pq;
     private List<E>[] edges;
     private boolean[] visited;
     private int to, from;
 
-    public BuildDijkstraPath(List<E>[] edges, int to, int from) {
+    public DijkstraPathBuilder(List<E>[] edges, int to, int from) {
         this.edges = edges;
         this.to = to;
         this.from = from;

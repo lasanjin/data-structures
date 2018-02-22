@@ -27,10 +27,10 @@ public class DirectedGraph<E extends Edge> {
     }
 
     public Iterator<E> shortestPath(int from, int to) {
-        return (new BuildDijkstraPath(edges, to, from)).getDijkstraPath().iterator();
+        return (new DijkstraPathBuilder(edges, to, from)).getDijkstraPath().iterator();
     }
 
     public Iterator<E> minimumSpanningTree() {
-        return BuildKruskalGraph.getKruskalGraph(nEdge, edges).iterator();
+        return KruskalGraphBuilder.getKruskalGraph(nEdge, edges).iterator();
     }
 }

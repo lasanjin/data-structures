@@ -1,8 +1,8 @@
 import java.util.*;
 
-public class BuildKruskalGraph {
+public class KruskalGraphBuilder {
 
-    private BuildKruskalGraph() {
+    private KruskalGraphBuilder() {
     }
 
     public static <E extends Edge> List<E> getKruskalGraph(int nEdge, List<E>[] graph) {
