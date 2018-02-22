@@ -1,8 +1,8 @@
 import java.util.*;
 
-public class CompKruskalEdge {
+public class BuildKruskalGraph {
 
-    private CompKruskalEdge() {
+    private BuildKruskalGraph() {
     }
 
     public static <E extends Edge> List<E> getKruskalGraph(int nEdge, List<E>[] graph) {
@@ -12,11 +12,11 @@ public class CompKruskalEdge {
         int cc = nEdge;// Antal edges
 
         while (!pq.isEmpty() && cc > 1) {
-            E edge = (E) pq.poll();
+            E edge = (E) pq.poll();// Hämta från pq.
 
             if (mst[edge.from] != mst[edge.to]) {// Om from && to refererar till samma lista
 
-                mst[edge.from].add(edge);// Vi gör detta 1 gång här.
+                mst[edge.from].add(edge); // Lägger till ny edge i någon av listorna, spelar ingen roll vilken.
 
                 int sizeTo = mst[edge.to].size();
                 int sizeFrom = mst[edge.from].size();
@@ -30,12 +30,11 @@ public class CompKruskalEdge {
                 cc--;
             }
         }
-
         return mst[1];
     }
 
     private static <E extends Edge> void mergeLists(List<E>[] mst, int small, int large) {
-        List<E> temp = mst[small]; // Peka på mindre mängden.
+        List<E> temp = mst[small]; // "Spara" mindre mängden.
 
         if (temp.size() < 1) {// Gör detta om mindre mängden är tom.
             mst[small] = mst[large];

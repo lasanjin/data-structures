@@ -1,12 +1,12 @@
 import java.util.*;
 
-public class CompDijkstraPath<E extends Edge> {
+public class BuildDijkstraPath<E extends Edge> {
     private PriorityQueue<DijkstraPath> pq;
     private List<E>[] edges;
     private boolean[] visited;
     private int to, from;
 
-    public CompDijkstraPath(List<E>[] edges, int to, int from) {
+    public BuildDijkstraPath(List<E>[] edges, int to, int from) {
         this.edges = edges;
         this.to = to;
         this.from = from;
@@ -14,9 +14,9 @@ public class CompDijkstraPath<E extends Edge> {
         pq = new PriorityQueue<>();
     }
 
-    public ArrayList<E> getPath() {
-        List<E> currentEdges; // Lista som innehåller current nodes edges
-        pq.add(new DijkstraPath(from, 0, new ArrayList<>()));// Första elementet i PQ
+    public ArrayList<E> getDijkstraPath() {
+        List<E> currentEdges; // Lista som innehåller current nodes edges.
+        pq.add(new DijkstraPath(from, 0, new ArrayList<>()));// Första elementet i PQ.
 
         while (!pq.isEmpty()) {
             DijkstraPath current = pq.poll();
@@ -30,7 +30,7 @@ public class CompDijkstraPath<E extends Edge> {
 
             visited[current.to] = true; // Nod är nu besökt.
 
-            currentEdges = edges[current.to]; // Hämta grannar
+            currentEdges = edges[current.to]; // Hämta grannar.
             for (E edge : currentEdges) {
                 if (!visited[edge.to]) { // Om nod besökt behöver inget göras.
 
@@ -44,7 +44,7 @@ public class CompDijkstraPath<E extends Edge> {
             }
         }
 
-        return null;
+        return null;// Detta borde aldrig ske om det finns en väg.
     }
 
     private class DijkstraPath implements Comparable {

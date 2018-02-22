@@ -9,7 +9,10 @@ public class Test {
 
     public Test() {
 
+<<<<<<< HEAD
         DirectedGraph dg = fillDirectedGraph(new DirectedGraph(6));
+=======
+>>>>>>> 60f131918d8b290f3c39c46b690f9cfacc303e86
     }
 
     private DirectedGraph fillDirectedGraph(DirectedGraph dg) {

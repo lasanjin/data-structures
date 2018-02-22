@@ -31,11 +31,11 @@ public class DirectedGraph<E extends Edge> {
     }
 
     public Iterator<E> shortestPath(int from, int to) {
-        return (new CompDijkstraPath(edges, to, from)).getPath().iterator();
+        return (new BuildDijkstraPath(edges, to, from)).getDijkstraPath().iterator();
 
     }
 
     public Iterator<E> minimumSpanningTree() {
-        return CompKruskalEdge.getKruskalGraph(nEdge, edges).iterator();
+        return BuildKruskalGraph.getKruskalGraph(nEdge, edges).iterator();
     }
 }
