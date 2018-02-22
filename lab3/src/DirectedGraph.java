@@ -2,18 +2,17 @@
 import java.util.*;
 
 public class DirectedGraph<E extends Edge> {
-    private int numV;
+    private int nEdge;
     private List<E>[] edges;
 
-
-    public DirectedGraph(int nNode) {
-        numV = nNode + 1;
-        edges = new List[numV];
+    public DirectedGraph(int noOfNodes) {
+        nEdge = noOfNodes + 1;// Finns ingen nod 0. Detta löser problemet.
+        edges = new List[nEdge];
         fillList();
     }
 
     private void fillList() {
-        for (int i = 0; i < numV; i++) {
+        for (int i = 0; i < nEdge; i++) {
             edges[i] = new ArrayList<>();
         }
     }
@@ -22,14 +21,13 @@ public class DirectedGraph<E extends Edge> {
         if (e == null) {
             throw new NullPointerException();
         }
-        if (e.from < 0 && e.from <= numV) {
+        if (e.from < 0 && e.from <= nEdge) {
             throw new IndexOutOfBoundsException();
         }
 
-        // TODO ska göra en koll till?
+        // TODO Ska göra en koll till?
 
         edges[e.from].add(e);
-
     }
 
     public Iterator<E> shortestPath(int from, int to) {
@@ -38,19 +36,6 @@ public class DirectedGraph<E extends Edge> {
     }
 
     public Iterator<E> minimumSpanningTree() {
-        return CompKruskalEdge.getKruskalGraph(numV, new CompareEdge(), edges).iterator();
-    }
-
-    private static class CompareEdge implements Comparator {
-
-        //TODO Fråga hur noga vi ska vara med chipsen.
-
-        @Override
-        public int compare(Object o1, Object o2) {
-            double w1 = ((Edge) o1).getWeight();
-            double w2 = ((Edge) o2).getWeight();
-
-            return Double.compare(w1, w2);
-        }
+        return CompKruskalEdge.getKruskalGraph(nEdge, edges).iterator();
     }
 }
