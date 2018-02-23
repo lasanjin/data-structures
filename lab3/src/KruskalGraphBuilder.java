@@ -41,13 +41,11 @@ public class KruskalGraphBuilder {
             return;
         }
 
-        for (int i = 0; i < mst.length; i++) {// Peka om index som pekar på mindre mängden.
-            if (mst[i] == temp) {
-                mst[i] = mst[large];
-            }
+        for (E edge : temp) { // Peka om index som pekar på mindre mängden.
+            mst[edge.to] = mst[large];
+            mst[edge.from] = mst[large];
+            mst[large].add(edge); // Lägg till mindre mängd till större.
         }
-
-        mst[large].addAll(temp);// Lägg till mindre mängd till större.
     }
 
     private static <E extends Edge> List<E>[] fillList(List<E>[] mst) {
