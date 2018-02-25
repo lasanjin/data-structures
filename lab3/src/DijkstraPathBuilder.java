@@ -37,10 +37,9 @@ public class DijkstraPathBuilder<E extends Edge> {
 
                     ArrayList<E> newPath = new ArrayList<>(current.path);
                     newPath.add(edge);
+                    double newWeight = current.cost + edge.getWeight();
 
-                    pq.add(
-                            new DijkstraPath(edge.to, current.cost + edge.getWeight()
-                                    , newPath)); // Lägg till nytt köelement.
+                    pq.add(new DijkstraPath(edge.to, newWeight, newPath)); // Nytt köelement.
                 }
             }
         }

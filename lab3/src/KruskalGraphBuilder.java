@@ -8,7 +8,6 @@ public class KruskalGraphBuilder {
     public static <E extends Edge> List<E> getKruskalGraph(int nEdge, List<E>[] graph) {
         PriorityQueue pq = fillPriorityQueue(new PriorityQueue(nEdge, new CompareEdge()), graph);// Fyll PQ med edges
         List<E>[] mst = fillList(new List[nEdge]);// Tom Kruskal graf
-
         int cc = nEdge;// Antal edges
 
         while (!pq.isEmpty() && cc > 1) {
@@ -16,10 +15,11 @@ public class KruskalGraphBuilder {
 
             if (mst[edge.from] != mst[edge.to]) {// Om from && to refererar till samma lista
 
-                mst[edge.from].add(edge); // Lägger till ny edge i någon av listorna, spelar ingen roll vilken.
-
                 int sizeTo = mst[edge.to].size();
                 int sizeFrom = mst[edge.from].size();
+
+                boolean dummy = sizeTo < sizeFrom ?
+                        mst[edge.from].add(edge) : mst[edge.to].add(edge); //Lägg till ny edge i minsta mängden
 
                 if (sizeTo < sizeFrom) {
                     mergeLists(mst, edge.to, edge.from);
@@ -30,6 +30,7 @@ public class KruskalGraphBuilder {
                 cc--;
             }
         }
+
         return mst[1];
     }
 
@@ -41,7 +42,7 @@ public class KruskalGraphBuilder {
             return;
         }
 
-        for (E edge : temp) { // Peka om index som pekar på mindre mängden.
+        for (E edge : temp) { // Peka om index (som pekar på mindre mängden) på större mängden.
             mst[edge.to] = mst[large];
             mst[edge.from] = mst[large];
             mst[large].add(edge); // Lägg till mindre mängd till större.

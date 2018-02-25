@@ -16,14 +16,15 @@ public class DirectedGraph<E extends Edge> {
         }
     }
 
-    public void addEdge(E e) {
-        if (e == null) {
+    public void addEdge(E edge) {
+        if (edge == null) {
             throw new NullPointerException();
         }
-        if (e.from < 0 && e.from <= nEdge) {
+        if (edge.from < 0 && edge.from <= nEdge) {
             throw new IndexOutOfBoundsException();
         }
-        edges[e.from].add(e);
+
+        edges[edge.from].add(edge);
     }
 
     public Iterator<E> shortestPath(int from, int to) {
