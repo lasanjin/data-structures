@@ -24,7 +24,6 @@ public class DijkstraPathBuilder<E extends Edge> {
             if (current.to == to) { // Färdiga!
                 return current.path;
             }
-
             if (visited[current.to]) { // Om besökt så polla ny och börja om.
                 continue;
             }
