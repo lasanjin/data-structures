@@ -1,16 +1,13 @@
-import java.util.Random;
-
 public class Quicksort {
-    private static int count = 0;
+    private static int swaps = 0;
 
     private Quicksort() {
     }
 
     public static void sort(int[] unsorted) {
-        if (unsorted != null || unsorted.length > 1) {
+        if (unsorted != null && unsorted.length > 1) {
             sort(unsorted, 0, unsorted.length - 1);
         }
-        System.out.println("#swap: " + count);
     }
 
     private static void sort(int[] unsorted, int low, int high) {
@@ -56,6 +53,6 @@ public class Quicksort {
         int temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
-        count++;//System.out.println(Arrays.toString(arr));
+        swaps++;
     }
 }
