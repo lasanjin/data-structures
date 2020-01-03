@@ -1,5 +1,6 @@
 module Quicksort where
 
+quicksort :: Ord t => [t] -> [t]
 quicksort []          = []
 quicksort (x:xs)      = quicksort smaller ++ [x] ++ quicksort bigger
     where smaller = [y | y <- xs,  y < x]   -- all elements y from list xs, such that y  < x
